@@ -1,0 +1,15 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Haier Wärmepumpe verbinden",
+        "description": "Bitte gib die IP-Adresse und den Port deines Waveshare RS485-TCP Converters ein.",
+        "data": {
+          "device_name": "Name des Geräts",
+          "ip_address": "IP-Adresse",
+          "port": "Port (Modbus TCP)"
+        }
+      }
+    }
+  }
+}
