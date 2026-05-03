@@ -148,10 +148,11 @@ class HaierModeSelect(CoordinatorEntity, SelectEntity):
         client = AsyncModbusTcpClient(self.coordinator.ip_address, port=self.coordinator.port, framer=FramerType.RTU)
         try:
             await client.connect()
+            #THEORETICALLY NOT NEEDED
             payload = await client.read_holding_registers(address=201, count=1, device_id=self.coordinator.device_id)
             if payload.isError(): return
             
-            new_registers = PyHaier.SetMode(payload.registers, cmd)
+            new_registers = PyHaier.SetMode(cmd)
             await client.write_registers(address=201, values=new_registers, device_id=self.coordinator.device_id)
             
             await self.coordinator.async_request_refresh()
