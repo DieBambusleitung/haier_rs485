@@ -7,9 +7,10 @@ from homeassistant.components.number import NumberEntity
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.const import UnitOfTemperature
 
-from .const import DOMAIN
+from .const import DOMAIN, CONF_DEVICE_NAME
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -35,12 +36,24 @@ class HaierTargetTempNumber(CoordinatorEntity, NumberEntity):
         self._attr_unique_id = f"haier_wp_target_temp_{coordinator.ip_address}"
         self._attr_name = "Soll Heizen/Kühlen"
         self._attr_icon = "mdi:thermometer-lines"
+        self._device_name = CONF_DEVICE_NAME
 
     @property
     def native_value(self):
         if not self.coordinator.data: return None
         return self.coordinator.data.get("target_temp")
 
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Return the device info."""
+        return DeviceInfo(
+            identifiers={(DOMAIN, self._device_name)},
+            name=self._device_name,
+            manufacturer="Haier",
+            model="Modbus Heatpump",
+            sw_version="1.0",
+        )
+    
     async def async_set_native_value(self, value: float) -> None:
         _LOGGER.info(f"Setze neue Zieltemperatur auf '{value}'...")
         client = AsyncModbusTcpClient(self.coordinator.ip_address, port=self.coordinator.port, framer=FramerType.RTU)

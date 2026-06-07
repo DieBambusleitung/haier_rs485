@@ -6,9 +6,10 @@ from pymodbus import FramerType
 from homeassistant.components.select import SelectEntity
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.core import HomeAssistant
 
-from .const import DOMAIN
+from .const import DOMAIN, CONF_DEVICE_NAME
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -54,6 +55,7 @@ class HaierStatusSelect(CoordinatorEntity, SelectEntity):
         self._attr_name = "Wärmepumpen Status"
         self._attr_icon = "mdi:power-settings"
         self._attr_options = STATUS_OPTIONS
+        self._device_name = CONF_DEVICE_NAME
 
     @property
     def current_option(self):
@@ -89,6 +91,17 @@ class HaierStatusSelect(CoordinatorEntity, SelectEntity):
         _LOGGER.warning(f"Unbekannter WP-Status von PyHaier empfangen: '{raw_state}'")
         return None
 
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Return the device info."""
+        return DeviceInfo(
+            identifiers={(DOMAIN, self._device_name)},
+            name=self._device_name,
+            manufacturer="Haier",
+            model="Modbus Heatpump",
+            sw_version="1.0",
+        )
+
     async def async_select_option(self, option: str) -> None:
         """Übersetzt die Auswahl zurück in den kurzen PyHaier Befehl."""
         cmd = STATUS_TO_CMD.get(option)
@@ -122,6 +135,7 @@ class HaierModeSelect(CoordinatorEntity, SelectEntity):
         self._attr_name = "Wärmepumpen Modus"
         self._attr_icon = "mdi:cog-outline"
         self._attr_options = MODE_OPTIONS
+        self._device_name = CONF_DEVICE_NAME
 
     @property
     def current_option(self):
@@ -138,6 +152,17 @@ class HaierModeSelect(CoordinatorEntity, SelectEntity):
             return "Turbo"
         
         return None
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Return the device info."""
+        return DeviceInfo(
+            identifiers={(DOMAIN, self._device_name)},
+            name=self._device_name,
+            manufacturer="Haier",
+            model="Modbus Heatpump",
+            sw_version="1.0",
+        )
 
     async def async_select_option(self, option: str) -> None:
         """Übersetzt die Auswahl zurück in den PyHaier Befehl."""

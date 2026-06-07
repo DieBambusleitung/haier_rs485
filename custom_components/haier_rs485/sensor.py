@@ -7,9 +7,10 @@ from homeassistant.components.sensor import (
 from homeassistant.const import UnitOfTemperature
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.core import HomeAssistant
 
-from .const import DOMAIN
+from .const import DOMAIN, CONF_DEVICE_NAME
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -45,6 +46,7 @@ class HaierTemperatureSensor(CoordinatorEntity, SensorEntity):
         
         # Eindeutige ID (z.B. haier_wp_current_dhw_192.168.1.100)
         self._attr_unique_id = f"haier_wp_{data_key}_{coordinator.ip_address}"
+        self._device_name = CONF_DEVICE_NAME
 
     @property
     def native_value(self):
@@ -54,3 +56,14 @@ class HaierTemperatureSensor(CoordinatorEntity, SensorEntity):
         
         # Greift einfach auf das Dictionary des Coordinators zu
         return self.coordinator.data.get(self.data_key)
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Return the device info."""
+        return DeviceInfo(
+            identifiers={(DOMAIN, self._device_name)},
+            name=self._device_name,
+            manufacturer="Haier",
+            model="Modbus Heatpump",
+            sw_version="1.0",
+        )
