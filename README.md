@@ -29,8 +29,12 @@ To use this project, you will need:
 
 If you wish to use the desired Modbus Port on the PCB of the Heat Pump, you must enable it before you can send and receive data to/from it. As of the documentation you have to set the BM2_5 Pin switch to "ON" in order to enable the Modbus Function on Port CN31.
 
+<img width="796" height="878" alt="Haier_manual" src="https://github.com/user-attachments/assets/ceffd9dd-9f9c-43af-8f4d-b3e340a9320a" />
+
+
 ## 🔭​ Configuration of the RS485 to Ethernet controller
 
+<img width="389" height="332" alt="waveshare_config" src="https://github.com/user-attachments/assets/c0e8a882-4651-4c0f-847b-4e1b9e2ac346" />
 
 
 ## 🔌 Wiring Diagram
@@ -54,6 +58,9 @@ Connect either the A and B Pins of the Cable for the Control Unit (YR-E27) OR X 
 |--------------|--------------|
 | `Y         ` | `A`          |
 | `X         ` | `B`          |
+
+<img width="3161" height="3024" alt="heatpump_PCB" src="https://github.com/user-attachments/assets/65f10f83-ade9-40aa-83b6-c5b84d5a92c2" />
+
 
 ## 🩸​ Known Issues
 
