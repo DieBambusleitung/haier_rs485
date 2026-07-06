@@ -62,6 +62,10 @@ Connect either the A and B Pins of the Cable for the Control Unit (YR-E27) OR X 
 <img width="3161" height="3024" alt="heatpump_PCB" src="https://github.com/user-attachments/assets/65f10f83-ade9-40aa-83b6-c5b84d5a92c2" />
 
 
+## 🌩️​ Limitations
+
+You cannot use the Control Unit (YR-E27) at the same time as the Modbus interface. They wont work together, as the Control Unit will try to override the input from the RS485 to Ethernet Controller. It is very noisy.
+
 ## 🩸​ Known Issues
 
 - Unfortunately, the current water temperature is read wrong. This seems to be an issue with the used PyHaier Library, which I will investigate in the future.
